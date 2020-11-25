@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
+import dj_database_url
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -25,7 +26,7 @@ SECRET_KEY = '3zue&@nv@q_*70)!#ntcfxn8k(k8xa#o-q+jzk$l&+xj%)(51r'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'ives-django-backend.herokuapp.com']
 
 
 # Application definition
@@ -53,6 +54,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware'
 
 ]
 
@@ -93,11 +95,17 @@ WSGI_APPLICATION = 'DjangoMedicalStoreManagementSystem.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'djangodb',
+        'USER': 'root',
+        'PASSWORD': '',
+        'HOST': 'localhost',
+        'POST': ''
     }
 }
 
+DATABASES['default'] = dj_database_url.config(
+    default='postgres://vmuwrskrejiafe:83c4f0dec2b65636efc4db52c83e7021e4d21b0657b1ba80fd03414a9ff845e3@ec2-52-44-139-108.compute-1.amazonaws.com:5432/d700dp18c8t10n')
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
@@ -123,7 +131,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Bangkok'
 
 USE_I18N = True
 
@@ -134,8 +142,15 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+
+PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 
 STATIC_URL = '/static/'
+
+STATIC_ROOT = os.path.join(PROJECT_ROOT, 'staticfiles')
+
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 CORS_ORIGIN_WHITELIST = [
     "http://localhost:3000",

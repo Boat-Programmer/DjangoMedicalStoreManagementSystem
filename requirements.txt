@@ -1,0 +1,11 @@
+django==3.0.8
+django-cors-headers
+djangorestframework
+djangorestframework-simplejwt
+gunicorn
+whitenoise
+mysql-connector
+mysqlclient
+Pillow
+psycopg2
+dj-database-url
